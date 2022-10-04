@@ -1,0 +1,41 @@
+<%- layout('layouts/boilerplate') -%>
+<%- include("../partials/nav")%>
+<div class="container w-50 mx-auto">
+    <h3 class="text-center">SignUp</h3>
+    <div class="">
+    <form action="/createuser/web"  class="needs-validation" method="post"  novalidate>
+        <label for="name"  class="form-label">Name</label>
+        <input class="form-control mb-3" id="name"  type="text" name="name" required>
+        <label for="email"  class="form-label">Email</label>
+        <input class="form-control  mb-3" id="email" type="email" name="email" required>
+        <label for="password"  class="form-label" >Password</label>
+        <input class="form-control  mb-3" id="password" type="password" name="password" required>
+        <label for="department"  class="form-label">Department</label>
+        <select name="department" class="form-select mb-3" id="department" required>
+            <option value="IT">IT</option>
+            <option value="CSE">CSE</option>
+            <option value="EEE">EEE</option>
+            <option value="MECH">MECH</option>
+            <option value="AI">AI</option>
+            <option value="ECE">ECE</option>
+        </select>
+        <label for="isadmin"  class="form-label">Admin</label>
+        <select name="isAdmin" class="form-select mb-3" id="isadmin" required>
+            <option value="false"selected >False</option>
+            <option value="true">True</option>
+        </select>
+        <label for="isDeptAdmin"  class="form-label">Dept Admin</label>
+        <select name="isDeptAdmin" class="form-select mb-3" id="isDeptAdmin" required>
+            <option value="false"selected >False</option>
+            <option value="true" >True</option>
+        </select>
+        <label for="type"  class="form-label">Type</label>
+        <select name="type"  class="form-select mb-3" id="type"   required>
+            <option value="Student">Student</option>
+            <option value="Faculty" selected >Faculty</option>
+        </select>
+        <input class="btn btn-outline-success" type="submit" value="submit">
+    </form>
+  </div>
+  </div>
+  <script src="/js/validation.js"></script>

@@ -1,0 +1,16 @@
+<%- layout('layouts/boilerplate') -%>
+<%- include("../partials/nav")%>
+<div class="container w-50 mx-auto">
+    <h3 class="text-center">LogIn</h3>
+    <div class="">
+    <form action="/login/web"  class="needs-validation" method="post"  novalidate>
+        <label for="email"  class="form-label">Email</label>
+        <input class="form-control  mb-3" id="email" type="email" name="email" required>
+        <label for="password"  class="form-label" >Password</label>
+        <input class="form-control  mb-3" id="password" type="password" name="password" required>
+    
+        <input class="btn btn-outline-success" type="submit" value="submit">
+    </form>
+  </div>
+  </div>
+  <script src="/js/validation.js"></script>

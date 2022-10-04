@@ -1,0 +1,38 @@
+<%- layout('layouts/boilerplate') -%>
+    <%- include("../partials/nav")%>
+
+
+        <h3>Today</h3>
+        <% todayCircular.forEach((element,index)=> {%>
+            <a href="http://localhost:3000<%=element.filePath  %> " target="_blank" rel="noopener noreferrer">
+                <%=element.title %>
+            </a><br>
+            <%   })%>
+            <hr>
+            <h3>Yesterday</h3>
+            <% yesterdayCircular.forEach((element,index)=> {%> 
+                <a href="http://localhost:3000<%=element.filePath  %> " target="_blank" rel="noopener noreferrer">
+                    <%=element.title %>
+                </a><br>
+                <%   })%>
+                <hr>
+                <h3>Earlier</h3>
+               
+                <% monthwise.forEach((element,index)=> {%> 
+                    <%  if(element.value.length!=0){%> 
+                   
+                    <div>
+                        <h4>
+                            <%= element.mon %>
+                        </h4>
+                        <% element.value.forEach( (ele,index)=>{%>
+                             <a href="http://localhost:3000<%=ele.filePath  %> " target="_blank"
+                                rel="noopener noreferrer">
+                                <%=ele.title %>
+                            </a><br>
+                            <% }) %>
+
+                    </div>
+                   
+                <% }})%>
+            
