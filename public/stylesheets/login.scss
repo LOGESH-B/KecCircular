@@ -1,0 +1,17 @@
+.login {
+    color: var(--navy);
+}
+.btn {
+    background-color: var(--dark);
+    color: var(--white);
+}
+.btn:hover{
+    background-color: var(--dark);
+    color: var(--white);
+    opacity: 0.6;
+}
+
+label{
+    font-size: 18px;
+    color: var(--dark);
+}

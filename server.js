@@ -8,32 +8,37 @@ const methodOverride = require('method-override')
 const path = require("path")
 const cookieParser = require("cookie-parser");
 const sessions = require('express-session');
+const dotenv=require('dotenv')
 
 //multer imports
-const { storage, fileFilter } = require("./multter/upload")
+
 
 //models
 const User = require("./models/user");
 const Circular = require("./models/circular")
 
-//controllers
-const { signUp, login } = require("./controller/auth")
+
 
 //middleware
 const { isLoggedIn } = require("./middleware/auth")
 
+//routes
+const userRoutes =  require('./routes/user')
+const circularRoutes = require('./routes/circular')
 
 //initilizing
 const app = express()
 app.use(express.static(path.join(__dirname, "/public")))
 app.use(methodOverride('_method'))
 app.engine('ejs', ejsMate)
-
+dotenv.config()
+app.use(express.json({extended:true}))
+app.use(express.urlencoded({ extended: true }));
 //session
 
 const oneDay = 1000 * 60 * 60 * 24;
 app.use(sessions({
-    secret: "thisismysecrctekeyfhrgfgrfrty84fwir767",
+    secret: "webpirates",
     saveUninitialized: true,
     cookie: { maxAge: oneDay },
     resave: false
@@ -46,9 +51,10 @@ app.use(async (req, res, next) => {
     next()
 })
 
+app.use('/user',userRoutes)
+app.use('/circular',circularRoutes)
 //multer
-const multer = require('multer');
-const upload = multer({ limits: { fileSize: 2097152 }, fileFilter: fileFilter, storage: storage })
+
 
 
 app.set('view engine', 'ejs');
@@ -58,14 +64,14 @@ app.use(cookieParser());
 
 
 //db connection
-mongoose.connect("mongodb://localhost:27017/Kec").then(() => {
+mongoose.connect(process.env.DB).then(() => {
     console.log('Db connection open')
 }).catch(err => {
     console.log(err.message, 'oops err');
 });
 
 //port
-const port = process.env.PORT || 3000
+
 
 //session variable
 var session; //to make variable available in all place
@@ -84,26 +90,7 @@ app.get("/", (req, res) => {
 })
 
 //newcircular
-app.get('/newcircular', isLoggedIn, (req, res) => {
-    res.render('circular_page/add_circular')
-})
-app.post('/newcircular', upload.single('pdf'), async (req, res) => {
 
-    const result = {
-        postedOn:  Date.now(),
-        title:req.body.title,
-        batch: req.body.batch,
-        dept: req.body.dept,
-        filePath: req.file.path.substring(6),
-        postedBy: req.session._id
-    }
-
-    const circular = await new Circular(result);
-    await circular.save()
-
-    res.redirect('/');
-
-})
 
 //view routes
 app.get('/view/all_circular/:platform', async (req, res) => {
@@ -154,20 +141,12 @@ app.get('/view/all_circular/:platform', async (req, res) => {
 })
 
 
-//auth routes
-app.get('/createaccount',  (req, res) => {
-    res.render('auth_page/signup')
-})
-app.get('/login', (req, res) => {
-    res.render('auth_page/login')
-})
-
-app.post('/createaccount/:platform',  signUp),
-    app.post('/login/:platform', login)
 
 
 //listening port
-app.listen(port, () => {
-    console.log("Started")
+
+const PORT = process.env.PORT || 3000
+app.listen(PORT, () => {
+    console.log(`Server is running at Port ${PORT}`)
 }
 )

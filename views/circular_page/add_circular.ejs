@@ -1,35 +1,61 @@
 <%- layout('layouts/boilerplate') -%>
-<%- include("../partials/nav")%>
+<link rel="stylesheet" href="/stylesheets/addCircular.scss">
+<div class="container my-5">
+  <div class="row">
+    <div class="col-md-6 offset-md-3 col-sm-12">
+      <div class="card shadow">
+        <div class="card-body">
+              <h3 class="text-center title">Add Circular</h3>
+              <form action="/circular" class="needs-validation row g-2" method="post" enctype="multipart/form-data" novalidate>
+                <div class="form-group mb-3 col-3">
+                  <label  class="form-label" for="number">Circular No.</label>
+                  <input type="number" class="form-control" name="number" id="number" reuired>
+                </div>
+                <div class="form-group mb-3 col-9">
+                      <label class="form-label" for="title">Title</label>
+                      <input type="text" class="form-control mb-3" name="title" id="title" required>
+                </div>
+                <div class="form-group mb-3 col-6">
+                  <label class="form-label" for="batch">Select Batch</label>
+                <select class="form-select " id="batch" name="batch" size="5" required multiple
+                  aria-label="multiple select example">
+                  <option value="all" selected>All</option>
+                  <option value="2019">2019</option>
+                  <option value="2020">2020</option>
+                  <option value="2021">2021</option>
+                  <option value="2022">2022</option>
+                </select>
+                </div>
+                <div class="form-group mb-3 col-6">
+                  <label class="form-label" for="dept">Select Departments</label>
+                  <select class="form-select " id="dept" name="dept" size="5" required multiple aria-label="multiple select example">
+                    <option value="all" selected>All</option>
+                    <option value="IT">IT</option>
+                    <option value="CSE">CSE</option>
+                    <option value="MECH">MECH</option>
+                    <option value="AI">AI</option>
+                    <option value="ECE">ECE</option>
+                  </select>
+                </div>
+                <div class="form-group mb-3">
+                  <div class="mb-3">
+                    <label for="formFile" class="form-label">Select Circular File(Only pdf)</label>
+                    <input class="form-control" name="pdf" type="file" id="formFile" required>
+                  </div>
+                </div>
+              <div class="d-grid gap-2">
+                <button class="btn">Add Circular</button>
+              </div>
+                
+               
+        
+              </form>
 
-<div class="container w-50 mx-auto">
-<h3 class="text-center">Add Circular</h3>
-<div class="">
-    <form action="/newcircular" class="needs-validation" method="post" enctype="multipart/form-data" novalidate>
-      <label class="form-label"  for="title">Title</label>
-      <input type="text"  class="form-control mb-3"  name="title" id="title" required>
-        <label class="form-label" for="batch">Select Batch</label>
-        <select class="form-select mb-3" id="batch" name="batch" size="5" required multiple aria-label="multiple select example"> 
-            <option value="2019">2019</option>
-            <option value="2020">2020</option>
-            <option value="2021">2021</option>
-            <option value="2022">2022</option>
-          </select>
-          <label class="form-label" for="dept">Select Departments</label>
-          <select class="form-select mb-3" id="dept" name="dept" size="5" required multiple aria-label="multiple select example">
-            <option value="IT">IT</option>
-            <option value="CSE">CSE</option>
-            <option value="MECH">MECH</option>
-            <option value="AI">AI</option>
-            <option value="ECE">ECE</option>
-          </select>
-          <div class="mb-3">
-            <label for="formFile" class="form-label">Select Circular File(Only pdf)</label>
-            <input class="form-control" name="pdf" type="file" id="formFile" required>
-          </div>
-        <input class="btn btn-outline-success mx-auto" type="submit" value="Submit">
-    </form>
+        </div>
+      </div>
+    </div>
+  </div>
 
-</div>
 </div>
 <script src="/js/validation.js"></script>
 

@@ -1,9 +1,13 @@
 const mongoose = require('mongoose');
-
-const circularSchema = new mongoose.Schema({
+const {Schema}=mongoose
+const circularSchema = new Schema({
    filePath:{
     type:String,
     required:true
+   },
+   number:{
+      type:String,
+      required:true
    },
    title:{
       type:String,
@@ -29,5 +33,4 @@ const circularSchema = new mongoose.Schema({
 });
 
 
-const Circular = new mongoose.model("Circular", circularSchema);
-module.exports = Circular;
+module.exports= mongoose.model("Circular", circularSchema);

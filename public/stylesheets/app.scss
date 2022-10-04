@@ -1,0 +1,23 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+:root {
+    --white:#F9F7F7;
+    --blue:#DBE2EF;
+    --dark:#3F72AF;
+    --navy:#112D4E;
+}
+
+html,
+body {
+    background-color: var(--white);
+    max-width: 100%;
+    overflow-x: hidden;
+}
+
+i {
+    cursor: pointer;
+}

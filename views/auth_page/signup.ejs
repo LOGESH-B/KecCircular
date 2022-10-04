@@ -1,41 +1,58 @@
 <%- layout('layouts/boilerplate') -%>
-<%- include("../partials/nav")%>
-<div class="container w-50 mx-auto">
-    <h3 class="text-center">SignUp</h3>
-    <div class="">
-    <form action="/createuser/web"  class="needs-validation" method="post"  novalidate>
-        <label for="name"  class="form-label">Name</label>
-        <input class="form-control mb-3" id="name"  type="text" name="name" required>
-        <label for="email"  class="form-label">Email</label>
-        <input class="form-control  mb-3" id="email" type="email" name="email" required>
-        <label for="password"  class="form-label" >Password</label>
-        <input class="form-control  mb-3" id="password" type="password" name="password" required>
-        <label for="department"  class="form-label">Department</label>
-        <select name="department" class="form-select mb-3" id="department" required>
-            <option value="IT">IT</option>
-            <option value="CSE">CSE</option>
-            <option value="EEE">EEE</option>
-            <option value="MECH">MECH</option>
-            <option value="AI">AI</option>
-            <option value="ECE">ECE</option>
-        </select>
-        <label for="isadmin"  class="form-label">Admin</label>
-        <select name="isAdmin" class="form-select mb-3" id="isadmin" required>
-            <option value="false"selected >False</option>
-            <option value="true">True</option>
-        </select>
-        <label for="isDeptAdmin"  class="form-label">Dept Admin</label>
-        <select name="isDeptAdmin" class="form-select mb-3" id="isDeptAdmin" required>
-            <option value="false"selected >False</option>
-            <option value="true" >True</option>
-        </select>
-        <label for="type"  class="form-label">Type</label>
-        <select name="type"  class="form-select mb-3" id="type"   required>
-            <option value="Student">Student</option>
-            <option value="Faculty" selected >Faculty</option>
-        </select>
-        <input class="btn btn-outline-success" type="submit" value="submit">
-    </form>
+<link rel="stylesheet" href="/stylesheets/signup.scss">
+<div class="container my-5 ">
+    <div class="row">
+        <div class="col-md-6 offset-md-3 col-sm-12">
+            <div class="card shadow">
+                <div class="card-body">
+                        <h3 class="text-center signup mb-3">SignUp</h3>
+                        <form class="row g-2" action="/user/signup/web" class="needs-validation" method="post" novalidate>
+                            <div class="form-group mb-3 col-6">
+                                <label for="name" class="form-label">Name</label>
+                                <input class="form-control mb-3" id="name" type="text" name="name" required>
+                            </div>
+                            <div class="form-group mb-3 col-6">
+                                    <label for="email" class="form-label">Email</label>
+                                    <input class="form-control  mb-3" id="email" type="email" name="email" required>
+                            </div>
+                            <div class="form-group mb-3 col-6">
+                                    <label for="password" class="form-label">Password</label>
+                                    <input class="form-control  mb-3" id="password" type="password" name="password" required>
+                            </div>
+                            <div class="form-group mb-3 col-6">
+                                <label for="password" class="form-label">Confirm Password</label>
+                                <input class="form-control  mb-3" id="password" type="password" name="confirmpassword" required>
+                            </div>
+                            <div class="form-group mb-3 col-6">
+                                <label for="type" class="form-label">User Type</label>
+                                <select name="type" class="form-select mb-3" id="isadmin" required>
+                                    <option value="admin" selected>Admin</option>
+                                    <option value="department-admin">Department Admin</option>
+                                </select>
+                            </div>
+                           <div class="form-group mb-3 col-6">
+                                <label for="department" class="form-label">Department (if department admin)</label>
+                                <select name="department" class="form-select mb-3" id="department" required>
+                                    <option value="none">None</option>
+                                    <option value="IT">IT</option>
+                                    <option value="CSE">CSE</option>
+                                    <option value="EEE">EEE</option>
+                                    <option value="MECH">MECH</option>
+                                    <option value="AI">AI</option>
+                                    <option value="ECE">ECE</option>
+                                </select>
+                           </div>
+                           
+                            
+                            <div class="d-grid gap-2">
+                                   <button class="btn">SignUp</button>
+                            </div>
+                            
+                        </form>
+                </div>
+            </div>
+        </div>
+    </div>
   </div>
-  </div>
+  
   <script src="/js/validation.js"></script>
