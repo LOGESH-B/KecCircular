@@ -1,8 +1,10 @@
 const nodemailer = require("nodemailer");
 
 // async..await is not allowed in global scope, must use a wrapper
-async function  sendEmail(user_mail,message,link) {
-
+module.exports.sendEmail = async (req, res) => {
+  var message = req.body.message;
+  var otp = req.body.otp;
+  var user_mail = req.body.email
   // Generate test SMTP service account from ethereal.email
   // Only needed if you don't have a real mail account for testing
 
@@ -12,7 +14,7 @@ async function  sendEmail(user_mail,message,link) {
     host: "smtp.ethereal.email",
     port: 587,
     secure: false, // true for 465, false for other ports
-    service:"Gmail",
+    service: "Gmail",
     auth: {
       user: process.env.USER, // generated ethereal user
       pass: process.env.PASS, // generated ethereal password
@@ -21,22 +23,21 @@ async function  sendEmail(user_mail,message,link) {
 
   // send mail with defined transport object
   let info = await transporter.sendMail({
-   // sender address
-  
+    // sender address
+
     from: "projectkec2024@gmail.com",
     to: user_mail, // list of receivers
-    subject: "Reset Password", // Subject line
+    subject: "Kec Circular | OTP", // Subject line
     text: message, // plain text body
-    html: ` <p> ${link} </p>`, // html body
+    html: `<p> Here the OTP for your verification => <b> ${otp} </b><p>`, // html body
   });
-
   console.log("Message sent: %s", info.messageId);
   // Message sent: <b658f8ca-6296-ccf4-8306-87d57a0b4321@example.com>
 
   // Preview only available when sending through an Ethereal account
   console.log("Preview URL: %s", nodemailer.getTestMessageUrl(info));
   // Preview URL: https://ethereal.email/message/WaQKMgKddxQDoou...
+  info.messageId ? res.status(200).json('OTP Send Successfully') : res.status(500).json('Error Occured!')
+
 }
 
-
-module.exports = { sendEmail };
