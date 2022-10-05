@@ -8,7 +8,7 @@ const methodOverride = require('method-override')
 const path = require("path")
 const cookieParser = require("cookie-parser");
 const sessions = require('express-session');
-const dotenv=require('dotenv')
+const dotenv = require('dotenv')
 
 //multer imports
 
@@ -16,13 +16,14 @@ const dotenv=require('dotenv')
 //models
 const User = require("./models/user");
 const Circular = require("./models/circular")
+const Constant = require("./models/constant")
 
 
 //middleware
 const { isLoggedIn } = require("./middleware/auth")
 
 //routes
-const userRoutes =  require('./routes/user')
+const userRoutes = require('./routes/user')
 const circularRoutes = require('./routes/circular')
 
 //initilizing
@@ -31,7 +32,7 @@ app.use(express.static(path.join(__dirname, "/public")))
 app.use(methodOverride('_method'))
 app.engine('ejs', ejsMate)
 dotenv.config()
-app.use(express.json({extended:true}))
+app.use(express.json({ extended: true }))
 app.use(express.urlencoded({ extended: true }));
 //session
 
@@ -43,14 +44,20 @@ app.use(sessions({
     resave: false
 }));
 
+//constantQuery
+const type = ["Civil Engineering", "Mechanical Engineering", "Mechatronics Engineering", "Automobile Engineering", "Chemical Engineering", "Food Technology", "Electrical and Electronics Engineering", "Electronics and Instrumentation Engineering", "Electronics and Communication Engineering", "Computer Science and Engineering", "Information Technology", "Computer Science and Design", "Artificial Intelligence (AIML & AIDS)", "Management Studies", "Computer Application", "Computer Technology - UG", "Computer Technology - PG", "Mathematics", "Physics", "Chemistry", "English"]
+
 //locals
 app.use(async (req, res, next) => {
+    //const deptt= new Constant({dept:type});
+    //await deptt.save()
     res.locals.currentUser = req.session._id;
+
     next()
 })
 
-app.use('/user',userRoutes)
-app.use('/circular',circularRoutes)
+app.use('/user', userRoutes)
+app.use('/circular', circularRoutes)
 //multer
 
 
@@ -69,6 +76,7 @@ mongoose.connect(process.env.DB).then(() => {
 });
 
 //port
+
 
 
 //session variable

@@ -2,7 +2,14 @@ const mongoose = require('mongoose')
 const jwt = require('jsonwebtoken')
 const bcrypt = require('bcryptjs')
 const User = require('../models/user')
+const Constant=require("../models/constant")
 var session;
+
+module.exports.getsignup=async (req,res)=>{
+    const department=await Constant.findOne({});
+    res.status(200).json({ department })
+
+}
 
 module.exports.signUp = async (req, res) => {
     const { name, rollno, email, department, password, batch, type} =  req.body
@@ -96,11 +103,11 @@ module.exports.login = async (req, res) => {
 }
 
 
-
 module.exports.renderLogin = async(req,res) =>{
     res.render('auth_page/login.ejs')
 }
 
 module.exports.renderRegister = async(req,res) =>{
-    res.render('auth_page/signup.ejs')
+    const department=await Constant.findOne({});
+    res.render('auth_page/signup.ejs',{department})
 }

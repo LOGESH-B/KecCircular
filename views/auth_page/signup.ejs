@@ -26,7 +26,8 @@
                             <div class="form-group mb-3 col-6">
                                 <label for="type" class="form-label">User Type</label>
                                 <select name="type" class="form-select mb-3" id="isadmin" required>
-                                    <option value="admin" selected>Admin</option>
+                                    <option value="faculty" selected>Faculty</option>
+                                    <option value="admin" >Admin</option>
                                     <option value="department-admin">Department Admin</option>
                                 </select>
                             </div>
@@ -34,12 +35,10 @@
                                 <label for="department" class="form-label">Department (if department admin)</label>
                                 <select name="department" class="form-select mb-3" id="department" required>
                                     <option value="none">None</option>
-                                    <option value="IT">IT</option>
-                                    <option value="CSE">CSE</option>
-                                    <option value="EEE">EEE</option>
-                                    <option value="MECH">MECH</option>
-                                    <option value="AI">AI</option>
-                                    <option value="ECE">ECE</option>
+                                    <% department.dept.forEach(element => { %>
+                                        <option value="<%= element %> "><%= element %> </option>
+                                    <% }) %>
+                                  
                                 </select>
                            </div>
                            
