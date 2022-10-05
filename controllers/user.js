@@ -55,6 +55,7 @@ module.exports.webLogin = async(req,res) =>{
     console.log(req.body)
     try {
         const existinguser = await User.findOne({ email })
+     
         if (!existinguser) {
             console.log("User not found...");
             return res.status(404).json({ message: "User not found..." })
