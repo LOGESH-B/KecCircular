@@ -3,8 +3,8 @@ const {signUp,login,webSignUp,webLogin,renderLogin,renderRegister,getsignup} = r
 const {sendEmail} = require('../controllers/mail')
 const router = express.Router();
 
-router.post('/login',renderLogin)
-router.post('/register',renderRegister)
+router.get('/login',renderLogin)
+router.get('/register',renderRegister)
 
 router.get('/getsignup',getsignup)
 
@@ -15,3 +15,6 @@ router.post('/login/web',webLogin)
 
 router.post('/otp',sendEmail)
 module.exports=router;
+
+
+

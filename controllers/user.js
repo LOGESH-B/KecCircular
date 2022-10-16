@@ -81,10 +81,11 @@ module.exports.webLogin = async(req,res) =>{
 
 
 module.exports.login = async (req, res) => {
+    console.log("In login")
     const { email, password } = req.body;
     console.log(req.body)
     try {
-        const existinguser = await User.findOne({ email })
+        const existinguser = await User.find({ email })
         if (!existinguser) {
             console.log("User not found...");
             return res.status(404).json({ message: "User not found..." })
