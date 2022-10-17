@@ -37,6 +37,10 @@ const userSchema = new Schema({
         type: Boolean,
         default:false,
     },
+    device_id:{
+        type:String,
+        default:"-"
+    },
     joinedOn:{
         type: Date,
         default: Date.now,
