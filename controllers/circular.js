@@ -59,7 +59,6 @@ module.exports.getAllCircular =async(req,res)=>{
         { "mon": "November", "value": [] },
         { "mon": "December", "value": [] }]
         allCircular.map((ele) => {
-            console.log(ele)
             index = ele.postedOn.getMonth()
             monthwise[index].value.push(ele)
         })

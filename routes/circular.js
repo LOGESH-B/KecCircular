@@ -10,3 +10,4 @@ router.post('/',upload.single('pdf'),postCircular)
 router.get('/all/:platform',getAllCircular)
 
 module.exports=router;
+

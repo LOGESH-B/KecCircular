@@ -22,7 +22,7 @@ module.exports.signUp = async (req, res) => {
         const hashPassword = await bcrypt.hash(password, 12);
         const newUser = new User({ name, rollno, email, department, batch, type, password: hashPassword })
         await newUser.save();
-        const token = jwt.sign({ email: newUser.email, uid: newUser._id }, 'token', { expiresIn: '1h' })
+        const token = jwt.sign({ email: newUser.email, id: newUser._id }, 'token', { expiresIn: '1h' })
             res.status(200).json({ result: newUser, token })
     } catch (err) {
         console.log(err)
@@ -82,22 +82,22 @@ module.exports.webLogin = async(req,res) =>{
 
 module.exports.login = async (req, res) => {
     const { email, password } = req.body;
-    console.log(req.body)
     try {
         const existinguser = await User.findOne({ email })
         if (!existinguser) {
             console.log("User not found...");
             return res.status(404).json({ message: "User not found..." })
         }
-        const isPasswordCrt = await bcrypt.compare(password, existinguser.password)
+        const isPasswordCrt = bcrypt.compare(password, existinguser.password)
         if (!isPasswordCrt) {
             return res.status(400).json({ message: "Invalid credentials" })
         }
-        const token = jwt.sign({ email: existinguser.email, uid: existinguser._id }, 'token', { expiresIn: '48h' })
+        const token = jwt.sign({ email: existinguser.email, id: existinguser._id }, 'token', { expiresIn: '48h' })
        
          res.status(200).json({ result: existinguser, token })
     
     } catch(err) {
+        console.log(err.message)
         res.status(500).json(err.message)
     }
 }

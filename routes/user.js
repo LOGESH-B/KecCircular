@@ -15,3 +15,6 @@ router.post('/login/web',webLogin)
 
 router.post('/otp',sendEmail)
 module.exports=router;
+
+
+
