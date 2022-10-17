@@ -52,7 +52,6 @@ app.use(async (req, res, next) => {
     //const deptt= new Constant({dept:type});
     //await deptt.save()
     res.locals.currentUser = req.session._id;
-
     next()
 })
 

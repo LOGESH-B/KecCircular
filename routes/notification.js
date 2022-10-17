@@ -2,7 +2,7 @@
 const express=require('express')
 const router = express.Router();
 
-const pushNotificationController=require("./controllers/push_notification.controllers")
+const pushNotificationController=require("../controllers/push_notification.controllers")
 
 
 router.get('/sendnotification',pushNotificationController.SendNotification)

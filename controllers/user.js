@@ -12,7 +12,7 @@ module.exports.getsignup=async (req,res)=>{
 }
 
 module.exports.signUp = async (req, res) => {
-    const { name, rollno, email, department, password, batch, type} =  req.body
+    const { name, rollno, email, department, password, batch, type,device_id} =  req.body
     try {
         const existinguser = await User.find({ email })
 
@@ -20,7 +20,7 @@ module.exports.signUp = async (req, res) => {
             return res.status(400).json({ message: 'User already found..' })
         }
         const hashPassword = await bcrypt.hash(password, 12);
-        const newUser = new User({ name, rollno, email, department, batch, type, password: hashPassword })
+        const newUser = new User({ name, rollno, email, department, batch, type,device_id, password: hashPassword })
         await newUser.save();
         const token = jwt.sign({ email: newUser.email, id: newUser._id }, 'token', { expiresIn: '1h' })
             res.status(200).json({ result: newUser, token })
@@ -110,4 +110,12 @@ module.exports.renderLogin = async(req,res) =>{
 module.exports.renderRegister = async(req,res) =>{
     const department=await Constant.findOne({});
     res.render('auth_page/signup.ejs',{department})
+}
+
+
+module.exports.logout=async(req,res)=>{
+    if (req.session) {
+        req.session.destroy();
+      }
+      res.redirect("/user/login")
 }

@@ -10,6 +10,7 @@
     .navbar-brand{
       color: var(--navy) !important;
       font-size: 24px;
+      
     }
     .nav-link{
       color: var(--navy) !important;
@@ -22,10 +23,13 @@
     <div class="container">
       <a class="navbar-brand" href="#">
       <img class="brand_img"  src="/assets/images/KEC-logo.png" alt="logo">
-       <h4 class="mb-0">Kongu Engineering College</h4>
-      <h6>Circular Portal</h6>
-      <!-- <p>KEC</p> --> 
     </a>
+    <div>
+       <h4 class="mb-1">Kongu Engineering College</h4>
+      <h6>Circular Portal</h6>
+    </div>
+      <!-- <p>KEC</p> --> 
+    
       <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarScroll" aria-controls="navbarScroll" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
       </button>
@@ -48,7 +52,7 @@
           </li>
          <% if (currentUser) { %>
           <li class="nav-item">
-          <a href="/logout" class="nav-link">Logout</a>
+          <a href="/user/logout" class="nav-link">Logout</a>
         </li>
           <% } else { %>
             <li class="nav-item">

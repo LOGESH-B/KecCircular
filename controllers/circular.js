@@ -1,4 +1,5 @@
-const Circular = require('../models/circular.js')
+const Circular = require('../models/circular.js');
+const user = require('../models/user.js');
 
 
 
@@ -13,6 +14,10 @@ module.exports.postCircular = async(req,res) =>{
         filePath: req.file.path.substring(6),
         postedBy: req.session._id
     }
+    //need to work for push notification
+    const userlist=await user.find({department:{ $in:req.body.dept}});
+    console.log(userlist);
+
 
     const circular = await new Circular(result);
     await circular.save()
@@ -34,12 +39,10 @@ module.exports.getAllCircular =async(req,res)=>{
     //today timestamp
     const timestamp = [currentYear, currentMonth <= 9 ? '0' + currentMonth : currentMonth, currentDate <= 9 ? '0' + currentDate : currentDate].join('-');
     const today = new Date(timestamp)
-    console.log(today)
     //yesterday timestamp
     const previous = new Date(today.getTime());
     previous.setDate(previous.getDate() - 1);
     const yesterday = previous;
-    console.log(yesterday)
     try {
         //querry
         const yesterdayCircular = await Circular.find({ postedOn: { $gte: yesterday, $lt: today } })

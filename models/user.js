@@ -21,6 +21,7 @@ const userSchema = new Schema({
     },
     department: {
         type: String,
+        default:"All"
     },
     batch: {
         type: String,
@@ -39,7 +40,8 @@ const userSchema = new Schema({
     },
     device_id:{
         type:String,
-        default:"-"
+        default:"-",
+      //  required: true
     },
     joinedOn:{
         type: Date,
