@@ -25,7 +25,7 @@ const { isLoggedIn } = require("./middleware/auth")
 //routes
 const userRoutes = require('./routes/user')
 const circularRoutes = require('./routes/circular')
-
+const notificationRoutes=require('./routes/notification')
 //initilizing
 const app = express()
 app.use(express.static(path.join(__dirname, "/public")))
@@ -58,6 +58,7 @@ app.use(async (req, res, next) => {
 
 app.use('/user', userRoutes)
 app.use('/circular', circularRoutes)
+app.use('/api',notificationRoutes)
 //multer
 
 
