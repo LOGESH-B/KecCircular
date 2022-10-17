@@ -38,7 +38,7 @@ const userSchema = new Schema({
         type: Boolean,
         default:false,
     },
-    device_id:{
+    deviceId:{
         type:String,
         default:"-",
       //  required: true
