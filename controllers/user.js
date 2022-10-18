@@ -14,7 +14,7 @@ module.exports.getsignup=async (req,res)=>{
 module.exports.signUp = async (req, res) => {
     const { name, rollno, email, department, password, batch, type,deviceId} =  req.body
     try {
-        const existinguser = await User.find({ email })
+        const existinguser = await User.findOne({ email })
 
         if (existinguser) {
             return res.status(400).json({ message: 'User already found..' })
@@ -25,7 +25,7 @@ module.exports.signUp = async (req, res) => {
         const token = jwt.sign({ email: newUser.email, id: newUser._id }, 'token', { expiresIn: '1h' })
             res.status(200).json({ result: newUser, token })
     } catch (err) {
-        console.log(err)
+        console.log(err.message)
         res.status(500).json('Something went worng...')
     }
 }

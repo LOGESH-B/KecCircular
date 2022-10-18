@@ -28,7 +28,6 @@ const userSchema = new Schema({
     },
     type: {
         type: String,
-        required: true
     },
     isAdmin:{
         type: Boolean,
@@ -50,4 +49,4 @@ const userSchema = new Schema({
 });
 
 
-module.exports=mongoose.model("User", userSchema);
+module.exports = mongoose.model("User", userSchema);

@@ -2,7 +2,6 @@ const nodemailer = require("nodemailer");
 
 // async..await is not allowed in global scope, must use a wrapper
 module.exports.sendEmail = async (req, res) => {
-  var message = req.body.message;
   var otp = req.body.otp;
   var user_mail = req.body.email
   // Generate test SMTP service account from ethereal.email
@@ -28,7 +27,7 @@ module.exports.sendEmail = async (req, res) => {
     from: "projectkec2024@gmail.com",
     to: user_mail, // list of receivers
     subject: "Kec Circular | OTP", // Subject line
-    text: message, // plain text body
+    text: "KEC CIRCULAR", // plain text body
     html: `<p> Here the OTP for your verification => <b> ${otp} </b><p>`, // html body
   });
   console.log("Message sent: %s", info.messageId);
