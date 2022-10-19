@@ -67,7 +67,6 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(cookieParser());
 
-
 //db connection
 mongoose.connect(process.env.DB).then(() => {
     console.log('Db connection open')
