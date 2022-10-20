@@ -31,10 +31,8 @@ exports.SendNotificationToDevice=(req,res,next)=>{
     const message={
         app_id:ONE_SIGNAL_CONFIG.APP_ID,
         contents:{en:"Test Notification Push"},
-        included_segments:["All"],
-        filters:[
-            {"field":"email","value":"logeshb.20it@kongu.edu"}
-        ],
+        included_segments:["included_player_ids"],
+        include_player_ids:req.body.devices,
         content_available:true,
         small_icon:"ic_notification_icon",
         data:{
@@ -56,4 +54,35 @@ exports.SendNotificationToDevice=(req,res,next)=>{
         
 
 
+}
+
+exports.pushnotify=(devices)=>{
+    console.log(devices)
+    const message={
+        app_id:ONE_SIGNAL_CONFIG.APP_ID,
+        contents:{en:"Test Notification Push"},
+        included_segments:["included_player_ids"],
+        include_player_ids:devices,
+        content_available:true,
+        small_icon:"ic_notification_icon",
+        data:{
+            pushTitle:"CUSTOM NOTIFICATION"
+        }
+    }
+
+     pushNotificationService.SendNotification(message,(error,results)=>{
+        if(error){
+            console.log('hii');
+            return {
+                message:"Success",
+                error: error,
+            };
+        }
+        return {
+            message:"Success",
+            data: results,
+        }
+    })
+
+        
 }

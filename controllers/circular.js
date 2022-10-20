@@ -1,39 +1,59 @@
 const Circular = require('../models/circular.js');
 const user = require('../models/user.js');
+const notify = require('../controllers/push_notification.controllers')
 
 
 
 module.exports.postCircular = async(req,res) =>{
     try{
-     const result = {
-        postedOn:  Date.now(),
-        title:req.body.title,
-        batch: req.body.batch,
-        dept: req.body.dept,
-        number:req.body.number,
-        filePath: req.file.path.substring(6),
-        postedBy: req.session._id
+        const result = {
+            postedOn: Date.now(),
+            title: req.body.title,
+            batch: req.body.batch,
+            dept: req.body.dept,
+            number: req.body.number,
+            filePath: req.file.path.substring(6),
+            postedBy: req.session._id
+        }
+        var userlist;
+        if (req.body.dept == 'all' && req.body.batch == 'all') {
+            userlist = await user.find({});
+            console.log(userlist+"alll")
+        }
+        else if (req.body.dept == 'all' || req.body.batch == 'all') {
+            userlist = await user.find({ $or: [{ department: { $in: req.body.dept } }, { batch: { $in: req.body.batch } }] });
+            console.log(userlist+"any one")
+        }
+        else {
+            userlist = await user.find({ $and: [{ department: { $in: req.body.dept } }, { batch: { $in: req.body.batch } }] });
+            console.log(userlist+"none")
+        }
+        //need to work for push notification
+
+        console.log(userlist);
+        devices = []
+        userlist.forEach((ele) => {
+            if (ele.deviceId != '-')
+                devices.push(ele.deviceId)
+        })
+
+        notify.pushnotify(devices);
+
+        const circular = await new Circular(result);
+         await circular.save()
+
+        res.redirect('/');
+    } catch (err) {
+        console.log(err.message)
     }
-    //need to work for push notification
-    const userlist=await user.find({department:{ $in:req.body.dept}});
-    console.log(userlist);
-
-
-    const circular = await new Circular(result);
-    await circular.save()
-
-    res.redirect('/');
-}catch(err){
-    console.log(err.message)
-}
 }
 
-module.exports.renderCircular = async(req,res)=>{
+module.exports.renderCircular = async (req, res) => {
     res.render("circular_page/add_circular.ejs")
 }
 
-module.exports.getAllCircular =async(req,res)=>{
-     const currentYear = new Date().getFullYear();
+module.exports.getAllCircular = async (req, res) => {
+    const currentYear = new Date().getFullYear();
     const currentMonth = new Date().getMonth() + 1;
     const currentDate = new Date().getDate();
     //today timestamp
