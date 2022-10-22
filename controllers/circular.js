@@ -65,9 +65,15 @@ module.exports.getAllCircular = async (req, res) => {
     const yesterday = previous;
     try {
         //querry
-        const yesterdayCircular = await Circular.find({ postedOn: { $gte: yesterday, $lt: today } })
-        const todayCircular = await Circular.find({ postedOn: { $gt: today } })
-        const allCircular = await Circular.find({ postedOn: { $lt: yesterday } })
+        var yesterdayCircular = await Circular.find({ postedOn: { $gte: yesterday, $lt: today } })
+        yesterdayCircular=yesterdayCircular.sort((a,b)=>b.number-a.number);
+
+        var todayCircular = await Circular.find({ postedOn: { $gt: today } })
+        todayCircular = todayCircular.sort((a,b)=>b.number-a.number);
+
+        var allCircular = await Circular.find({ postedOn: { $lt: yesterday } })
+        allCircular = allCircular.sort((a,b)=>b.number-a.number)
+        
         //seperating according to months for all circular
         monthwise = [{ "mon": "January", "value": [] },
         { "mon": "February", "value": [] },
