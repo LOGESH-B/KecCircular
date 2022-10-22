@@ -88,7 +88,7 @@ module.exports.login = async (req, res) => {
             console.log("User not found...");
             return res.status(404).json({ message: "User not found..." })
         }
-        const isPasswordCrt = bcrypt.compare(password, existinguser.password)
+        const isPasswordCrt =await  bcrypt.compare(password, existinguser.password)
         if (!isPasswordCrt) {
             return res.status(400).json({ message: "Invalid credentials" })
         }
