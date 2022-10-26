@@ -26,7 +26,8 @@ const circularSchema = new Schema({
     required:true
    },
    postedBy:{
-    type: mongoose.Schema.Types.ObjectId, ref: 'User',
+    type: mongoose.Schema.Types.ObjectId,
+     ref: 'User',
     required:true
    }
    

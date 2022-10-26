@@ -9,6 +9,7 @@ const path = require("path")
 const cookieParser = require("cookie-parser");
 const sessions = require('express-session');
 const dotenv = require('dotenv')
+const flash = require('connect-flash');
 
 //multer imports
 
@@ -34,6 +35,7 @@ app.engine('ejs', ejsMate)
 dotenv.config()
 app.use(express.json({ extended: true }))
 app.use(express.urlencoded({ extended: true }));
+app.use(flash());
 //session
 
 const oneDay = 1000 * 60 * 60 * 24;
@@ -51,6 +53,8 @@ const type = ["Civil Engineering", "Mechanical Engineering", "Mechatronics Engin
 app.use(async (req, res, next) => {
     //const deptt= new Constant({dept:type});
     //await deptt.save()
+    res.locals.success=req.flash('success');
+    res.locals.error=req.flash('error');
     res.locals.currentUser = req.session._id;
     next()
 })
@@ -89,15 +93,13 @@ app.get("/", (req, res) => {
         res.render('home')
     }
     else {
+        req.flash("success","Hii")
         res.render('auth_page/login')
     }
 
 })
 
-//newcircular
 
-
-//view routes
 
 
 

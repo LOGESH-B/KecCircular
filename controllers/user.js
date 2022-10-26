@@ -73,6 +73,7 @@ module.exports.webLogin = async(req,res) =>{
         }
         session = req.session;
         req.session._id = existinguser._id
+        req.flash('success','Login Successfull')
         res.redirect('/') 
     } catch (err) {
         res.status(500).json(err.message)

@@ -6,6 +6,8 @@ module.exports.isLoggedIn=(req,res,next)=>{
         next()
     }
     else{
-        res.redirect('/login')
+        console.log('on auth    ')
+        req.flash("error","You don't have access to this action")
+        res.redirect('/user/login')
     }
 }
