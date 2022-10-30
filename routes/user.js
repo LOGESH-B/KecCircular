@@ -15,7 +15,7 @@ router.post('/signup/web',webSignUp)
 router.post('/login/web',webLogin)
 
 router.post('/otp',otp_sendEmail)
-router.get('/delete',deleteDeviceId)
+router.post('/delete',deleteDeviceId)
 router.get('/logout',logout)
 
 //forgotten_password
