@@ -90,7 +90,7 @@ var session; //to make variable available in all place
 app.get("/", (req, res) => {
     session = req.session;
     if (session._id) {
-        res.render('home')
+       res.redirect('/circular/all/web')
     }
     else {
         req.flash("success","Hii")

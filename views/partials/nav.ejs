@@ -40,17 +40,16 @@
       <div class="collapse navbar-collapse " id="navbarScroll">
         <ul class="navbar-nav me-auto my-2 my-lg-0 navbar-nav-scroll">
           <% if (currentUser) { %>
-          <li class="nav-item">
-            <a class="nav-link" aria-current="page" href="/">Home</a>
-          </li>
+       
           <li class="nav-item">
             <a class="nav-link" href="/circular">Add Circular</a>
           </li>
-          <% }  %>
           <li class="nav-item">
             <a class="nav-link" href="/circular/all/web">View Circular</a>
           </li>
-         <% if (currentUser) { %>
+     
+          
+      
           <li class="nav-item">
           <a href="/user/logout" class="nav-link">Logout</a>
         </li>

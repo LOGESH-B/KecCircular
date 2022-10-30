@@ -1,7 +1,7 @@
 const Circular = require('../models/circular.js');
 const user = require('../models/user.js');
 const notify = require('../controllers/push_notification.controllers')
-
+const Constant = require('../models/constant.js')
 
 
 module.exports.postCircular = async(req,res) =>{
@@ -41,7 +41,7 @@ module.exports.postCircular = async(req,res) =>{
 
         const circular = await new Circular(result);
          await circular.save()
-
+        req.flash('success','Circular Posted successfully')
         res.redirect('/');
     } catch (err) {
         console.log(err.message)
@@ -49,7 +49,25 @@ module.exports.postCircular = async(req,res) =>{
 }
 
 module.exports.renderCircular = async (req, res) => {
-    res.render("circular_page/add_circular.ejs")
+    var increment;
+    var year=new Date().getFullYear()
+    const batchYear=[]
+    const department=await Constant.findOne({});
+    for(increment=-4;increment<=4;increment++){
+        batchYear.push(year-increment);
+    }
+    res.render("circular_page/add_circular.ejs",{batchYear,department})
+}
+
+module.exports.deleteCircular= async(req,res)=>{
+    const {id}=req.params
+    try {
+        const circular=await Circular.findByIdAndDelete(id)
+        req.flash('success','Circular has been deleted successfully')
+        res.redirect('/circular/all/web')
+    } catch (error) {
+        console.log(error)
+    }
 }
 
 module.exports.getAllCircular = async (req, res) => {
@@ -75,21 +93,21 @@ module.exports.getAllCircular = async (req, res) => {
         allCircular = allCircular.sort((a,b)=>b.number-a.number)
         
         //seperating according to months for all circular
-        monthwise = [{ "mon": "January", "value": [] },
-        { "mon": "February", "value": [] },
-        { "mon": "March", "value": [] },
-        { "mon": "April", "value": [] },
-        { "mon": "May", "value": [] },
-        { "mon": "June", "value": [] },
-        { "mon": "July", "value": [] },
-        { "mon": "August", "value": [] },
-        { "mon": "September", "value": [] },
-        { "mon": "October", "value": [] },
-        { "mon": "November", "value": [] },
-        { "mon": "December", "value": [] }]
+        monthwise = [{ "title": "January", "data": [] },
+        { "title": "February", "data": [] },
+        { "title": "March", "data": [] },
+        { "title": "April", "data": [] },
+        { "title": "May", "data": [] },
+        { "title": "June", "data": [] },
+        { "title": "July", "data": [] },
+        { "title": "August", "data": [] },
+        { "title": "September", "data": [] },
+        { "title": "October", "data": [] },
+        { "title": "November", "data": [] },
+        { "title": "December", "data": [] }]
         allCircular.map((ele) => {
             index = ele.postedOn.getMonth()
-            monthwise[index].value.push(ele)
+            monthwise[index].data.push(ele)
         })
         //response api seperation
         req.params.platform == 'web' ?

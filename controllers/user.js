@@ -33,51 +33,60 @@ module.exports.signUp = async (req, res) => {
 
 module.exports.webSignUp = async(req,res) =>{
         const { name,department,password,email,type} =  req.body
-        let isAdmin=false,isDeptAdmin=false
-        try {
+        try{
+         let femail_pattern=/^([a-z]+)\.([a-z]{2,5})\@([a-z]+)\.([a-z]{2,5})$/;
+         let result1=femail_pattern.test(email)
+        if(!result1 &&!email.endsWith('kongu.edu') ){
+            req.flash('error','Invalid email')
+          return res.redirect('/user/register')
+        }
+        var isAdmin=false,isDeptAdmin=false
+        var rollno=''
         const existinguser = await User.findOne({ email })
         if (existinguser) {
-            return res.status(400).json({ message: 'User already found..' })
+            req.flash('error','User found already')
+            return res.redirect('/user/register')
         }
         if(type=='admin'){
             isAdmin=true
+            rollno='admin'
         }else if (type=='department-admin'){
             isDeptAdmin=true
+            rollno=`${department}admin`
         }
         const hashPassword = await bcrypt.hash(password, 12);
-        const newUser = new User({ name,  email, type, department,isAdmin,isDeptAdmin, password: hashPassword })
+        const newUser = new User({ name,  email, rollno,type, department,isAdmin,isDeptAdmin, password: hashPassword })
         await newUser.save();
         req.session._id = newUser._id;
         res.locals.currentUser = newUser._id
-        res.redirect('/')       
-    } catch (err) {
-        console.log(err)
-        res.status(500).json('Something went worng...')
-    }
+        req.flash('success','Account created')
+        res.redirect('/')    
+    }catch(err){
+
+    }   
 }
 
 
 module.exports.webLogin = async(req,res) =>{
     const { email, password } = req.body;
-    console.log(req.body)
-    try {
         const existinguser = await User.findOne({ email })
-     
         if (!existinguser) {
-            console.log("User not found...");
-            return res.status(404).json({ message: "User not found..." })
+            req.flash('error','User not found')
+            return res.redirect('/user/login')
         }
         const isPasswordCrt = await bcrypt.compare(password, existinguser.password)
         if (!isPasswordCrt) {
-            return res.status(400).json({ message: "Invalid credentials" })
+            req.flash('error','Invalid Credentials')
+            return res.redirect('/user/login')
+        }
+        if(!existinguser.isAdmin){
+            req.flash('error',"Unauthorised access")
+            return res.redirect('/user/login')
         }
         session = req.session;
         req.session._id = existinguser._id
         req.flash('success','Login Successfull')
         res.redirect('/') 
-    } catch (err) {
-        res.status(500).json(err.message)
-    }
 }
 
 
