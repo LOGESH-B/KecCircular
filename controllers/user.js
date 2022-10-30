@@ -132,7 +132,7 @@ module.exports.logout=async(req,res)=>{
       res.redirect("/user/login")
 }
 
-module.exports.delelteDeviceId = async(req,res)=>{
+module.exports.deleteDeviceId = async(req,res)=>{
     const {id}=req.body
     try {
         const user=await User.findById(id)
