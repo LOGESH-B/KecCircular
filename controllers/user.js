@@ -91,7 +91,7 @@ module.exports.webLogin = async(req,res) =>{
 
 
 module.exports.login = async (req, res) => {
-    const { email, password } = req.body;
+    const { email, password,deviceId } = req.body;
     try {
         const existinguser = await User.findOne({ email })
         if (!existinguser) {
@@ -102,6 +102,8 @@ module.exports.login = async (req, res) => {
         if (!isPasswordCrt) {
             return res.status(400).json({ message: "Invalid credentials" })
         }
+        existinguser.deviceId=deviceId
+        await existinguser.save()
         const token = jwt.sign({ email: existinguser.email, id: existinguser._id }, 'token', { expiresIn: '48h' })
        
          res.status(200).json({ result: existinguser, token })
@@ -128,4 +130,16 @@ module.exports.logout=async(req,res)=>{
         req.session.destroy();
       }
       res.redirect("/user/login")
+}
+
+module.exports.delelteDeviceId = async(req,res)=>{
+    const {id}=req.body
+    try {
+        const user=await User.findById(id)
+        user.deviceId ='-'
+        await user.save()
+        res.status(200).send('Logout successfull')
+    } catch (error) {
+        res.status(500).send(error)
+    }
 }
