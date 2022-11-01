@@ -1,7 +1,9 @@
 const Circular = require('../models/circular.js');
-const user = require('../models/user.js');
-const notify = require('../controllers/push_notification.controllers')
+const User = require('../models/user.js');
 const Constant = require('../models/constant.js')
+const notify = require('../controllers/push_notification.controllers')
+const fs = require('fs');
+
 
 
 module.exports.postCircular = async(req,res) =>{
@@ -17,19 +19,17 @@ module.exports.postCircular = async(req,res) =>{
         }
         var userlist;
         if (req.body.dept == 'all' && req.body.batch == 'all') {
-            userlist = await user.find({});
+            userlist = await User.find({});
             console.log(userlist+"alll")
         }
         else if (req.body.dept == 'all' || req.body.batch == 'all') {
-            userlist = await user.find({ $or: [{ department: { $in: req.body.dept } }, { batch: { $in: req.body.batch } }] });
+            userlist = await User.find({ $or: [{ department: { $in: req.body.dept } }, { batch: { $in: req.body.batch } }] });
             console.log(userlist+"any one")
         }
         else {
-            userlist = await user.find({ $and: [{ department: { $in: req.body.dept } }, { batch: { $in: req.body.batch } }] });
+            userlist = await User.find({ $and: [{ department: { $in: req.body.dept } }, { batch: { $in: req.body.batch } }] });
             console.log(userlist+"none")
         }
-        //need to work for push notification
-
         console.log(userlist);
         devices = []
         userlist.forEach((ele) => {
@@ -40,7 +40,7 @@ module.exports.postCircular = async(req,res) =>{
         notify.pushnotify(devices);
 
         const circular = await new Circular(result);
-         await circular.save()
+        await circular.save()
         req.flash('success','Circular Posted successfully')
         res.redirect('/');
     } catch (err) {
@@ -53,10 +53,13 @@ module.exports.renderCircular = async (req, res) => {
     var year=new Date().getFullYear()
     const batchYear=[]
     const department=await Constant.findOne({});
+    const user=await User.findOne({_id:req.session._id})
+    console.log(user);
     for(increment=-4;increment<=4;increment++){
         batchYear.push(year-increment);
     }
-    res.render("circular_page/add_circular.ejs",{batchYear,department})
+   // res.render("circular_page/add_circular.ejs",{batchYear,department,user})
+    res.render("circular_page/add_circular_dept.ejs",{batchYear,department,user})
 }
 
 module.exports.deleteCircular= async(req,res)=>{
@@ -119,3 +122,24 @@ module.exports.getAllCircular = async (req, res) => {
     }
 }
 
+module.exports.createfolder=async (req,res)=>{
+const folderName = './public/circular_pdf/2024';
+
+try {
+  if (!fs.existsSync(folderName)) {
+  //  const newacadamic=await Circular.deleteMany({});
+    console.log("Folder Created",newacadamic)
+    fs.mkdirSync(folderName);
+    req.flash('success',"New Acadamic Year Created Successfully,All Data in the Previous Year are Deleted")
+    res.redirect('/')
+  }
+  else{
+    req.flash('error',"Folder already Exists")
+    res.redirect('/')
+  }
+} catch (err) {
+  console.error(err);
+  req.flash('error',err.message)
+  res.redirect('/')
+}
+}

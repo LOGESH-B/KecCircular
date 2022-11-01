@@ -10,7 +10,6 @@ const storage = multer.diskStorage({
     },
     
   })
-  888
   const fileFilter =
     (req, file, cb) => {
         const acceptableExtensions = ['.pdf'];
