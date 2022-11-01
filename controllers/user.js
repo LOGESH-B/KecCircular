@@ -79,7 +79,7 @@ module.exports.webLogin = async(req,res) =>{
             req.flash('error','Invalid Credentials')
             return res.redirect('/user/login')
         }
-        if(!existinguser.isAdmin){
+        if(!existinguser.isAdmin && !existinguser.isDeptAdmin){
             req.flash('error',"Unauthorised access")
             return res.redirect('/user/login')
         }

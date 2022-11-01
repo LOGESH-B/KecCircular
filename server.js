@@ -11,8 +11,6 @@ const sessions = require('express-session');
 const dotenv = require('dotenv')
 const flash = require('connect-flash');
 
-//multer imports
-
 
 //models
 const User = require("./models/user");
@@ -27,6 +25,7 @@ const { isLoggedIn } = require("./middleware/auth")
 const userRoutes = require('./routes/user')
 const circularRoutes = require('./routes/circular')
 const notificationRoutes=require('./routes/notification')
+
 //initilizing
 const app = express()
 app.use(express.static(path.join(__dirname, "/public")))
@@ -36,8 +35,8 @@ dotenv.config()
 app.use(express.json({ extended: true }))
 app.use(express.urlencoded({ extended: true }));
 app.use(flash());
-//session
 
+//session
 const oneDay = 1000 * 60 * 60 * 24;
 app.use(sessions({
     secret: "webpirates",
@@ -59,13 +58,6 @@ app.use(async (req, res, next) => {
     next()
 })
 
-app.use('/user', userRoutes)
-app.use('/circular', circularRoutes)
-app.use('/api',notificationRoutes)
-//multer
-
-
-
 app.set('view engine', 'ejs');
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
@@ -77,9 +69,6 @@ mongoose.connect(process.env.DB).then(() => {
 }).catch(err => {
     console.log(err.message, 'oops err');
 });
-
-//port
-
 
 
 //session variable
@@ -99,12 +88,14 @@ app.get("/", (req, res) => {
 
 })
 
-
-
+//routers
+app.use('/user', userRoutes)
+app.use('/circular', circularRoutes)
+app.use('/api',notificationRoutes)
 
 
 //listening port
-
+//port
 const PORT = process.env.PORT || 3000
 app.listen(PORT, () => {
     console.log(`Server is running at Port ${PORT}`)

@@ -1,0 +1,69 @@
+<%- layout('layouts/boilerplate') -%>
+<link rel="stylesheet" href="/stylesheets/addCircular.scss">
+<div class="container my-5">
+  <div class="row">
+    <div class="col-md-6 offset-md-3 col-sm-12">
+      <div class="card shadow">
+        <div class="card-body">
+              <h3 class="text-center title">Add Circular</h3>
+              <form action="/circular" class="needs-validation row g-2" method="post" enctype="multipart/form-data" novalidate>
+                <div class="form-group mb-3 col-3">
+                  <label  class="form-label" for="number">Circular No.</label>
+                  <input type="number" class="form-control" name="number" id="number" reuired>
+                </div>
+                <div class="form-group mb-3 col-9">
+                      <label class="form-label" for="title">Title</label>
+                      <input type="text" class="form-control mb-3" name="title" id="title" required>
+                </div>
+                <div class="form-group mb-3 col-6">
+                  <label class="form-label" for="batch">Select Batch</label>
+                <select class="form-select " id="batch" name="batch" size="5" required multiple
+                  aria-label="multiple select example">
+                  <option value="all" selected>All</option>
+                  
+                  <% batchYear.forEach(element=> { %>
+                    <option value="<%= element %> ">
+                      <%= element %>
+                    </option>
+                    <% }) %>
+                </select>
+                </div>
+                <% if (!user.isDeptAdmin) { %>
+                <div class="form-group mb-3 col-6">
+                  <label class="form-label" for="dept">Select Departments</label>
+                  <select class="form-select " id="dept" name="dept" size="5" required multiple aria-label="multiple select example">
+                    <option value="all" selected>All</option>
+                  <% department.dept.forEach(element=> { %>
+                    <option value="<%= element %> ">
+                      <%= element %>
+                    </option>
+                    <% }) %>
+                  </select>
+                </div>
+                <% } else { %>
+                  <input type="text" name="dept" id="dept" value="<%= user.department %>" hidden>
+                <% } %>
+                <div class="form-group mb-3">
+                  <div class="mb-3">
+                    <label for="formFile" class="form-label">Select Circular File(Only pdf)</label>
+                    <input class="form-control" name="pdf" type="file" id="formFile" required>
+                  </div>
+                </div>
+              <div class="d-grid gap-2">
+                <button class="btn">Add Circular</button>
+              </div>
+                
+               
+        
+              </form>
+
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>
+<script src="/js/validation.js"></script>
+
+
+
