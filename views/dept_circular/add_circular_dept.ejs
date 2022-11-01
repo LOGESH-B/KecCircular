@@ -6,10 +6,10 @@
       <div class="card shadow">
         <div class="card-body">
               <h3 class="text-center title">Add Circular</h3>
-              <form action="/circular" class="needs-validation row g-2" method="post" enctype="multipart/form-data" novalidate>
+              <form action="/dept" class="needs-validation row g-2" method="post" enctype="multipart/form-data" novalidate>
                 <div class="form-group mb-3 col-3">
                   <label  class="form-label" for="number">Circular No.</label>
-                  <input type="number" class="form-control" name="number" id="number" reuired>
+                  <input type="number" class="form-control" name="number" id="number" required>
                 </div>
                 <div class="form-group mb-3 col-9">
                       <label class="form-label" for="title">Title</label>
@@ -28,21 +28,15 @@
                     <% }) %>
                 </select>
                 </div>
-                <% if (!user.isDeptAdmin) { %>
+            
                 <div class="form-group mb-3 col-6">
-                  <label class="form-label" for="dept">Select Departments</label>
-                  <select class="form-select " id="dept" name="dept" size="5" required multiple aria-label="multiple select example">
-                    <option value="all" selected>All</option>
-                  <% department.dept.forEach(element=> { %>
-                    <option value="<%= element %> ">
-                      <%= element %>
-                    </option>
-                    <% }) %>
+                  <label class="form-label" for="dept">Select Department</label>
+                  <select class="form-select " id="dept" name="dept"  required>
+                    <option value="<%=user.department%>" selected><%= user.department %> </option>
+                 
                   </select>
                 </div>
-                <% } else { %>
-                  <input type="text" name="dept" id="dept" value="<%= user.department %>" hidden>
-                <% } %>
+                
                 <div class="form-group mb-3">
                   <div class="mb-3">
                     <label for="formFile" class="form-label">Select Circular File(Only pdf)</label>
