@@ -72,7 +72,7 @@ module.exports.deleteCircular= async(req,res)=>{
         const circular=await Circular.findByIdAndDelete(id)
 
         req.flash('success','Circular has been deleted successfully')
-        res.redirect('/dept/all/web')
+        res.redirect('/circular/all/web')
     } catch (error) {
         console.log(error)
     }

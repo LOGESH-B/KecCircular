@@ -1,6 +1,7 @@
 const Department = require('../models/department.js')
 const User = require('../models/user.js');
 const notify = require('../controllers/push_notification.controllers')
+
 module.exports.postCircular = async(req,res)=>{
     try {
         const result = {
@@ -94,11 +95,9 @@ module.exports.getAllCircular = async (req, res) => {
 module.exports.deleteCircular= async(req,res)=>{
     const {id}=req.params
     try {
-       
         const circular=await Department.findByIdAndDelete(id)
-
         req.flash('success','Circular has been deleted successfully')
-        res.redirect('/circular/all/web')
+        res.redirect('/dept/all/web')
     } catch (error) {
         console.log(error)
     }
