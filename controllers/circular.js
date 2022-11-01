@@ -37,7 +37,7 @@ module.exports.postCircular = async(req,res) =>{
                 devices.push(ele.deviceId)
         })
 
-        notify.pushnotify(devices);
+        notify.pushnotify(devices,result.title,"KEC | Circular");
 
         const circular = await new Circular(result);
         await circular.save()
