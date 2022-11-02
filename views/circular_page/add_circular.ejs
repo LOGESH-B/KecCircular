@@ -42,7 +42,8 @@
                 <div class="form-group mb-3">
                   <div class="mb-3">
                     <label for="formFile" class="form-label">Select Circular File(Only pdf)</label>
-                    <input class="form-control" name="pdf" type="file" id="formFile" required>
+                    <input class="form-control" name="pdf" onchange="pdf_size(this)" type="file" id="pdf_url" required>
+                    <p id="size_err"></p>
                   </div>
                 </div>
               <div class="d-grid gap-2">
@@ -60,6 +61,36 @@
 
 </div>
 <script src="/js/validation.js"></script>
+<script>
+       
+
+  function pdf_size(input) {
+  
+    var pdf_url = document.getElementById("pdf_url")
+    var size_err = document.getElementById("size_err")
+
+
+    size_err.style.display="block"
+    size_err.innerText = ""
+    size_err.style.color ="white"
+    
+    
+
+    var size = input.files[0].size / 1000;
+
+    if (size >= 2 && size <= 2000) {
+      size_err.innerText = "Accepted!"
+      size_err.style.color = "green"
+      setTimeout(() => { size_err.style.display = "none" }, 3000)
+
+    }
+    else {
+      size_err.innerText = "FileSize is Greater than 2MB!!!!"
+      size_err.style.color = "red"
+    }
+  }
+</script>
+
 
 
 
