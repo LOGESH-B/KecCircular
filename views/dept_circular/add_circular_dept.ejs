@@ -6,10 +6,10 @@
       <div class="card shadow">
         <div class="card-body">
               <h3 class="text-center title">Add Circular</h3>
-              <form action="/circular" class="needs-validation row g-2" method="post" enctype="multipart/form-data" novalidate>
+              <form action="/dept" class="needs-validation row g-2" method="post" enctype="multipart/form-data" novalidate>
                 <div class="form-group mb-3 col-3">
                   <label  class="form-label" for="number">Circular No.</label>
-                  <input type="number" class="form-control" name="number" id="number" reuired>
+                  <input type="number" class="form-control" name="number" id="number" required>
                 </div>
                 <div class="form-group mb-3 col-9">
                       <label class="form-label" for="title">Title</label>
@@ -28,25 +28,20 @@
                     <% }) %>
                 </select>
                 </div>
-                <% if (!user.isDeptAdmin) { %>
+            
                 <div class="form-group mb-3 col-6">
-                  <label class="form-label" for="dept">Select Departments</label>
-                  <select class="form-select " id="dept" name="dept" size="5" required multiple aria-label="multiple select example">
-                    <option value="all" selected>All</option>
-                  <% department.dept.forEach(element=> { %>
-                    <option value="<%= element %> ">
-                      <%= element %>
-                    </option>
-                    <% }) %>
+                  <label class="form-label" for="dept">Select Department</label>
+                  <select class="form-select " id="dept" name="dept"  required>
+                    <option value="<%=user.department%>" selected><%= user.department %> </option>
+                 
                   </select>
                 </div>
-                <% } else { %>
-                  <input type="text" name="dept" id="dept" value="<%= user.department %>" hidden>
-                <% } %>
+                
                 <div class="form-group mb-3">
                   <div class="mb-3">
                     <label for="formFile" class="form-label">Select Circular File(Only pdf)</label>
-                    <input class="form-control" name="pdf" type="file" id="formFile" required>
+                    <input class="form-control" name="pdf" onchange="pdf_size(this)" type="file" id="pdf_url" required>
+                    <p id="size_err"></p>
                   </div>
                 </div>
               <div class="d-grid gap-2">
@@ -64,6 +59,35 @@
 
 </div>
 <script src="/js/validation.js"></script>
+<script>
+       
+
+  function pdf_size(input) {
+  
+    var pdf_url = document.getElementById("pdf_url")
+    var size_err = document.getElementById("size_err")
+
+
+    size_err.style.display="block"
+    size_err.innerText = ""
+    size_err.style.color ="white"
+    
+    
+
+    var size = input.files[0].size / 1000;
+
+    if (size >= 2 && size <= 2000) {
+      size_err.innerText = "Accepted!"
+      size_err.style.color = "green"
+      setTimeout(() => { size_err.style.display = "none" }, 3000)
+
+    }
+    else {
+      size_err.innerText = "FileSize is Greater than 2MB!!!!"
+      size_err.style.color = "red"
+    }
+  }
+</script>
 
 
 
