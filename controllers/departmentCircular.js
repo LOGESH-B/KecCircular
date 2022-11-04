@@ -2,7 +2,7 @@ const Department = require('../models/department.js')
 const User = require('../models/user.js');
 const notify = require('../controllers/push_notification.controllers')
 
-module.exports.postCircular = async(req,res)=>{
+module.exports.postCircular = async (req, res) => {
     try {
         const result = {
             title: req.body.title,
@@ -15,15 +15,15 @@ module.exports.postCircular = async(req,res)=>{
         var userlist;
         if (req.body.dept == 'all' && req.body.batch == 'all') {
             userlist = await User.find({});
-            console.log(userlist+"alll")
+            console.log(userlist + "alll")
         }
         else if (req.body.dept == 'all' || req.body.batch == 'all') {
             userlist = await User.find({ $or: [{ department: { $in: req.body.dept } }, { batch: { $in: req.body.batch } }] });
-            console.log(userlist+"any one")
+            console.log(userlist + "any one")
         }
         else {
             userlist = await User.find({ $and: [{ department: { $in: req.body.dept } }, { batch: { $in: req.body.batch } }] });
-            console.log(userlist+"none")
+            console.log(userlist + "none")
         }
         console.log(userlist);
         devices = []
@@ -31,19 +31,20 @@ module.exports.postCircular = async(req,res)=>{
             if (ele.deviceId != '-')
                 devices.push(ele.deviceId)
         })
-        
+
         notify.pushnotify(devices);
-    
+
         const deptCircular = new Department(result)
         await deptCircular.save()
-        req.flash('success','Posted Circular successfully')
+        req.flash('success', 'Posted Circular successfully')
         res.redirect('/dept/all/web')
     } catch (error) {
-        
+
     }
 }
 
 module.exports.getAllCircular = async (req, res) => {
+    console.log(req.body.dept)
     const currentYear = new Date().getFullYear();
     const currentMonth = new Date().getMonth() + 1;
     const currentDate = new Date().getDate();
@@ -56,15 +57,15 @@ module.exports.getAllCircular = async (req, res) => {
     const yesterday = previous;
     try {
         //querry
-        var yesterdayCircular = await Department.find({ postedOn: { $gte: yesterday, $lt: today } })
-        yesterdayCircular=yesterdayCircular.sort((a,b)=>b.number-a.number);
+        var yesterdayCircular = await Department.find({ $and: [{ dept: { $in: req.body.dept } }, { postedOn: { $gte: yesterday, $lt: today } }] })
+        yesterdayCircular = yesterdayCircular.sort((a, b) => b.number - a.number);
 
-        var todayCircular = await Department.find({ postedOn: { $gt: today } })
-        todayCircular = todayCircular.sort((a,b)=>b.number-a.number);
+        var todayCircular = await Department.find({ $and: [{ dept: { $in: req.body.dept } }, { postedOn: { $gt: today } }] })
+        todayCircular = todayCircular.sort((a, b) => b.number - a.number);
 
-        var allCircular = await Department.find({ postedOn: { $lt: yesterday } })
-        allCircular = allCircular.sort((a,b)=>b.number-a.number)
-        
+        var allCircular = await Department.find({ $and: [{ dept: { $in: req.body.dept } }, { postedOn: { $lt: yesterday } }] })
+        allCircular = allCircular.sort((a, b) => b.number - a.number)
+
         //seperating according to months for all circular
         monthwise = [{ "title": "January", "data": [] },
         { "title": "February", "data": [] },
@@ -92,11 +93,11 @@ module.exports.getAllCircular = async (req, res) => {
     }
 }
 
-module.exports.deleteCircular= async(req,res)=>{
-    const {id}=req.params
+module.exports.deleteCircular = async (req, res) => {
+    const { id } = req.params
     try {
-        const circular=await Department.findByIdAndDelete(id)
-        req.flash('success','Circular has been deleted successfully')
+        const circular = await Department.findByIdAndDelete(id)
+        req.flash('success', 'Circular has been deleted successfully')
         res.redirect('/dept/all/web')
     } catch (error) {
         console.log(error)
