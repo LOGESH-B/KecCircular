@@ -3,6 +3,7 @@
     <div class="container view-circular-container">
         <h3 class="display-6">Today</h3>
         <hr>
+        <div class="row">
         <% todayCircular.forEach((ele,index)=> {%>
             <div class="col-md-4">
                 <div class="card shadow">
@@ -46,9 +47,10 @@
             <br>
             </div>
             <% })%>
-
+            </div>
                 <h3 class="display-6">Yesterday</h3>
                 <hr>    
+                <div class="row">
                 <% yesterdayCircular.forEach((ele,index)=> {%>
                     <div class="col-md-4">
                         <div class="card shadow">
@@ -89,9 +91,10 @@
                     <br>
                     </div>
                     <% })%>
-
+    </div>
                         <h3 class="display-6">Earlier</h3>
                         <hr>
+                        <div class="row">
                         <% monthwise.forEach((element,index)=> {%>
                             <% if(element.data.length!=0){%>
 
@@ -141,6 +144,7 @@
                                         <br>
                                         </div>
                                         <% }) %>
+                                        </div>
                                     </div>
 
                                 </div>

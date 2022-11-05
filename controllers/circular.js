@@ -81,6 +81,7 @@ module.exports.deleteCircular= async(req,res)=>{
 }
 
 module.exports.getAllCircular = async (req, res) => {
+    console.log(req.body);
     const currentYear = new Date().getFullYear();
     const currentMonth = new Date().getMonth() + 1;
     const currentDate = new Date().getDate();
@@ -129,6 +130,7 @@ module.exports.getAllCircular = async (req, res) => {
         res.status(500).json('Something went worng...')
     }
 }
+
 
 module.exports.createfolder=async (req,res)=>{
 const folderName = './public/circular_pdf/2024';

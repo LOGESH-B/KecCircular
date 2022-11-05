@@ -1,5 +1,5 @@
 const express=require('express')
-const {postCircular,renderCircular,getAllCircular,deleteCircular,createfolder} = require('../controllers/circular.js')
+const {postCircular,renderCircular,getAllCircular,deleteCircular,createfolder,getAllCircularApp} = require('../controllers/circular.js')
 const router = express.Router();
 const { storage, fileFilter } = require("../multter/upload")
 const multer = require('multer');
@@ -8,7 +8,8 @@ const {isLoggedIn}=require("../middleware/auth")
 
 router.get('/',isLoggedIn,renderCircular)
 router.post('/',isLoggedIn,upload.single('pdf'),postCircular)
-router.get('/all/:platform/:dept/:batch',getAllCircular)
+router.get('/all/:platform',getAllCircular)
+
 router.delete('/:id',deleteCircular)
 
 router.get('/add/acadamic_year',isLoggedIn,createfolder)
