@@ -55,6 +55,8 @@ app.use(async (req, res, next) => {
     res.locals.success=req.flash('success');
     res.locals.error=req.flash('error');
     res.locals.currentUser = req.session._id;
+    res.locals.dept = req.session.dept;
+
     next()
 })
 

@@ -85,6 +85,7 @@ module.exports.webLogin = async(req,res) =>{
         }
         session = req.session;
         req.session._id = existinguser._id
+        req.session.dept=existinguser.department
         req.flash('success','Login Successfull')
         res.redirect('/') 
 }

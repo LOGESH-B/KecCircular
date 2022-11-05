@@ -18,7 +18,6 @@
     }
 </style>
 
-
 <nav class="navbar navbar-expand-lg" style="z-index: 1;">
     <div class="container">
       <a class="navbar-brand" href="#">
@@ -44,13 +43,13 @@
           <li class="nav-item">
             <a class="nav-link" href="/circular">Add Circular</a>
           </li>
-          <% if(currentUser.isAdmin) {%>
+          <% if(dept=="none") {%>
           <li class="nav-item">
-            <a class="nav-link" href="/circular/all/web">View Circular</a>
+            <a class="nav-link" href='/circular/all/web/all/type/admin'>View Circular</a>
           </li>
           <% }else{ %>
               <li class="nav-item">
-                <a class="nav-link" href="/dept/all/web">View Circular</a>
+                <a class="nav-link" href="/dept/all/web/<%=dept%>/all/department-admin">View Circular</a>
               </li>
            <% }%> 
      
