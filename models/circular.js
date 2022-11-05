@@ -21,6 +21,10 @@ const circularSchema = new Schema({
     type:[String],
     required:true
    },
+   to:{
+      type:String,
+      required:true
+   },
    dept:{
     type:[String],
     required:true

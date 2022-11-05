@@ -13,6 +13,10 @@ const circularSchema = new Schema({
       type:String,
       required:true
    },
+   to:{
+      type:String,
+      required:true
+   },
    postedOn:{
     type:Date,
     required:true,

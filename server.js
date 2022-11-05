@@ -81,9 +81,9 @@ app.get("/", async(req, res) => {
     if (session._id) {
         const user = await User.findById(session._id)
         if(user.isAdmin){
-            return res.redirect(`/circular/all/web/${user.department}/${user.batch}`)
+            return res.redirect(`/circular/all/web/${user.department}/${user.batch}/${user.type}`)
         }else{
-            return res.redirect(`/dept/all/web/${user.department}/${user.batch}`)
+            return res.redirect(`/dept/all/web/${user.department}/${user.batch}/${user.type}`)
         }
     }
     else {
