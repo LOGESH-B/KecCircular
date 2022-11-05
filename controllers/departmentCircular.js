@@ -57,13 +57,13 @@ module.exports.getAllCircular = async (req, res) => {
     const yesterday = previous;
     try {
         //querry
-        var yesterdayCircular = await Department.find({ $and: [{ dept: { $in: req.params.dept } }, { postedOn: { $gte: yesterday, $lt: today } }] })
+        var yesterdayCircular = await Department.find({ $and: [{ dept: { $in: req.params.dept } },{ batch: { $in: req.params.batch } }, { postedOn: { $gte: yesterday, $lt: today } }] })
         yesterdayCircular = yesterdayCircular.sort((a, b) => b.number - a.number);
 
-        var todayCircular = await Department.find({ $and: [{ dept: { $in: req.params.dept } }, { postedOn: { $gt: today } }] })
+        var todayCircular = await Department.find({ $and: [{ dept: { $in: req.params.dept } },{ batch: { $in: req.params.batch } }, { postedOn: { $gt: today } }] })
         todayCircular = todayCircular.sort((a, b) => b.number - a.number);
 
-        var allCircular = await Department.find({ $and: [{ dept: { $in: req.params.dept } }, { postedOn: { $lt: yesterday } }] })
+        var allCircular = await Department.find({ $and: [{ dept: { $in: req.params.dept } },{ batch: { $in: req.params.batch } }, { postedOn: { $lt: yesterday } }] })
         allCircular = allCircular.sort((a, b) => b.number - a.number)
 
         //seperating according to months for all circular
