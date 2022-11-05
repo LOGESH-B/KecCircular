@@ -94,15 +94,15 @@ module.exports.getAllCircular = async (req, res) => {
     try {
         //querry
         
-        var yesterdayCircular = await Circular.find({ $and: [{ dept: { $in: req.params.dept } },{ batch: { $in: req.params.batch } }, { postedOn: { $gte: yesterday, $lt: today } }] })
-        yesterdayCircular=yesterdayCircular.sort((a,b)=>b.number-a.number);
+        var yesterdayCircular = await Circular.find({ $and: [{ $or: [{ dept: { $in: [req.params.dept, 'all'] } }] }, { $or: [{ batch: { $in: [req.params.batch, 'all'] } }] }, { postedOn: { $gte: yesterday, $lt: today } }] })
+        yesterdayCircular = yesterdayCircular.sort((a, b) => b.number - a.number);
 
-        var todayCircular = await Circular.find({ $and: [{ dept: { $in: req.params.dept } },{ batch: { $in: req.params.batch } }, { postedOn: { $gt: today } }] })
-        todayCircular = todayCircular.sort((a,b)=>b.number-a.number);
+        var todayCircular = await Circular.find({ $and: [{ $or: [{ dept: { $in: [req.params.dept, 'all'] } }] }, { $or: [{ batch: { $in: [req.params.batch, 'all'] } }] }, { postedOn: { $gt: today } }] })
+        todayCircular = todayCircular.sort((a, b) => b.number - a.number);
 
-        var allCircular = await Circular.find({ $and: [{ dept: { $in: req.params.dept } },{ batch: { $in: req.params.batch } }, { postedOn: { $lt: yesterday } }] })
-        allCircular = allCircular.sort((a,b)=>b.number-a.number)
-        
+        var allCircular = await Circular.find({ $and: [{ $or: [{ dept: { $in: [req.params.dept, 'all'] } }] }, { $or: [{ batch: { $in: [req.params.batch, 'all'] } }] }, { postedOn: { $lt: yesterday } }] })
+        allCircular = allCircular.sort((a, b) => b.number - a.number)
+
         //seperating according to months for all circular
         monthwise = [{ "title": "January", "data": [] },
         { "title": "February", "data": [] },
