@@ -8,7 +8,7 @@ const {isLoggedIn}=require("../middleware/auth")
 
 // router.get('/',isLoggedIn,renderCircular)
 router.post('/',isLoggedIn,upload.single('pdf'),postCircular)
-router.post('/all/:platform',getAllCircular)
+router.get('/all/:platform/:dept',getAllCircular)
 router.delete('/:id',isLoggedIn,deleteCircular)
 
 // router.get('/add/acadamic_year',isLoggedIn,createfolder)
