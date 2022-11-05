@@ -64,7 +64,7 @@ exports.pushnotify=(devices,content,title)=>{
         included_segments:["included_player_ids"],
         include_player_ids:devices,
         content_available:true,
-        small_icon:"ic_notification_icon",
+        small_icon:"ic_stat_onesignal_default",
         data:{
             pushTitle:title,
         }
