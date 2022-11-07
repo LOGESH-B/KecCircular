@@ -70,11 +70,11 @@ module.exports.renderCircular = async (req, res) => {
 module.exports.deleteCircular = async (req, res) => {
     const { id } = req.params
     try {
-        console.log(__dirname)
-        const path = `${__dirname}/../public/`
+        // console.log(__dirname)
+        // const path = `${__dirname}/../public/`
         const circular = await Circular.findByIdAndDelete(id)
-        path = path + circular.filePath
-        fs.unlinkSync(path)
+        // path = path + circular.filePath
+        // fs.unlinkSync(path)
         req.flash('success', 'Circular has been deleted successfully')
         res.redirect('/circular/all/web')
     } catch (error) {

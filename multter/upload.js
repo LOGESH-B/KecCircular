@@ -6,7 +6,7 @@ const storage = multer.diskStorage({
       cb(null, './public/circular_pdf/2022')
     },
     filename: function (req, file, cb) {
-      cb(null,"2022_"+file.originalname)
+      cb(null,file.originalname)
     },
     
   })
