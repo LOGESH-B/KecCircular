@@ -29,7 +29,7 @@ module.exports.postCircular = async (req, res) => {
         console.log(userlist);
         devices = []
         userlist.forEach((ele) => {
-            if (ele.deviceId != '-' && ele.type == req.body.to)
+            if (ele.deviceId != '-' && (ele.type == req.body.to || req.body.to=='all'))
                 devices.push(ele.deviceId)
         })
 
@@ -38,7 +38,7 @@ module.exports.postCircular = async (req, res) => {
         const deptCircular = new Department(result)
         await deptCircular.save()
         req.flash('success', 'Posted Circular successfully')
-        res.redirect('/dept/all/web')
+        res.redirect('/')
     } catch (error) {
 
     }
@@ -99,6 +99,9 @@ module.exports.deleteCircular = async (req, res) => {
     const { id } = req.params
     try {
         const circular = await Department.findByIdAndDelete(id)
+        const path = `${__dirname}/../public/`
+        path = path + circular.filePath
+        fs.unlinkSync(path)
         req.flash('success', 'Circular has been deleted successfully')
         res.redirect('/dept/all/web/none/none/deptAdmin')
     } catch (error) {

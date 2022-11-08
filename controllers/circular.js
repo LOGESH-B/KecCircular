@@ -83,7 +83,7 @@ module.exports.deleteCircular = async (req, res) => {
 }
 
 module.exports.getAllCircular = async (req, res) => {
-    console.log(req.body);
+    // console.log(req.body);
     const currentYear = new Date().getFullYear();
     const currentMonth = new Date().getMonth() + 1;
     const currentDate = new Date().getDate();
@@ -105,6 +105,8 @@ module.exports.getAllCircular = async (req, res) => {
 
         var allCircular = await Circular.find({ $and: [{ dept: { $in: [req.params.dept, 'all'] } }, { batch: { $in: [req.params.batch, 'all'] } }, { type: { $in: [req.params.type, 'all'] } }, { postedOn: { $lt: yesterday } }] })
         allCircular = allCircular.sort((a, b) => b.number - a.number)
+
+        console.log(todayCircular)
 
         //seperating according to months for all circular
         monthwise = [{ "title": "January", "data": [] },
