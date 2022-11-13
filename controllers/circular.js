@@ -35,8 +35,8 @@ module.exports.postCircular = async (req, res) => {
         var devices = []
         userlist.forEach((ele) => {
             // console.log(ele.deviceId,ele.type,req.body.to)
-            if (ele.deviceId != '-' && (ele.type == req.body.to || req.body.to=='all')){devices.push(ele.deviceId)}
-                
+            if (ele.deviceId != '-' && (ele.type == req.body.to || req.body.to == 'all')) { devices.push(ele.deviceId) }
+
         })
         // console.log("devices",devices)
         notify.pushnotify(devices, result.title, "KEC | Circular");
@@ -53,6 +53,7 @@ module.exports.postCircular = async (req, res) => {
 module.exports.renderCircular = async (req, res) => {
     var increment;
     var year = new Date().getFullYear()
+    console.log(year)
     const batchYear = []
     const department = await Constant.findOne({});
     const user = await User.findOne({ _id: req.session._id })
@@ -96,14 +97,27 @@ module.exports.getAllCircular = async (req, res) => {
     const yesterday = previous;
     try {
         //querry
-
-        var yesterdayCircular = await Circular.find({ $and: [{ dept: { $in: [req.params.dept, 'all'] } }, { batch: { $in: [req.params.batch, 'all'] } }, { type: { $in: [req.params.type, 'all'] } }, { postedOn: { $gte: yesterday, $lt: today } }] })
+        //yesterday
+        if (req.params.type != 'admin') {
+            var yesterdayCircular = await Circular.find({ $and: [{ dept: { $in: [req.params.dept, 'all'] } }, { batch: { $in: [req.params.batch, 'all'] } }, { type: { $in: [req.params.type, 'all'] } }, { postedOn: { $gte: yesterday, $lt: today } }] })
+        } else {
+            var yesterdayCircular = await Circular.find({ postedOn: { $gte: yesterday, $lt: today } })
+        }
         yesterdayCircular = yesterdayCircular.sort((a, b) => b.number - a.number);
-
-        var todayCircular = await Circular.find({ $and: [{ dept: { $in: [req.params.dept, 'all'] } }, { batch: { $in: [req.params.batch, 'all'] } }, { type: { $in: [req.params.type, 'all'] } }, { postedOn: { $gt: today } }] })
+        //today
+        if (req.params.type != 'admin') {
+            var todayCircular = await Circular.find({ $and: [{ dept: { $in: [req.params.dept, 'all'] } }, { batch: { $in: [req.params.batch, 'all'] } }, { type: { $in: [req.params.type, 'all'] } }, { postedOn: { $gt: today } }] })
+        } else {
+            var todayCircular = await Circular.find({ postedOn: { $gt: today } })
+        }
         todayCircular = todayCircular.sort((a, b) => b.number - a.number);
 
-        var allCircular = await Circular.find({ $and: [{ dept: { $in: [req.params.dept, 'all'] } }, { batch: { $in: [req.params.batch, 'all'] } }, { type: { $in: [req.params.type, 'all'] } }, { postedOn: { $lt: yesterday } }] })
+        //all
+        if (req.params.type != 'admin') {
+            var allCircular = await Circular.find({ $and: [{ dept: { $in: [req.params.dept, 'all'] } }, { batch: { $in: [req.params.batch, 'all'] } }, { type: { $in: [req.params.type, 'all'] } }, { postedOn: { $lt: yesterday } }] })
+        } else {
+            var allCircular = await Circular.find({ postedOn: { $lt: yesterday } })
+        }
         allCircular = allCircular.sort((a, b) => b.number - a.number)
 
         console.log(todayCircular)
