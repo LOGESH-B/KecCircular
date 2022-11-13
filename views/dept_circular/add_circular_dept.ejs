@@ -22,11 +22,19 @@
                   <option value="all" selected>All</option>
                   
                   <% batchYear.forEach(element=> { %>
-                    <option value="<%= element %> ">
+                    <option value="<%= element %>">
                       <%= element %>
                     </option>
                     <% }) %>
                 </select>
+                </div>
+                <div class="form-group mb-3 col-6">
+                  <label for="to" class="form-label">Send To</label>
+                  <select name="to" class="form-select">
+                      <option value="all">All</option>
+                      <option value="faculty">Faculty</option>
+                      <option value="student">Student</option>
+                  </select>
                 </div>
             
                 <div class="form-group mb-3 col-6">
