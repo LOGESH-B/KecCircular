@@ -33,10 +33,10 @@ module.exports.postCircular = async (req, res) => {
             if (ele.deviceId != '-' && (ele.type == req.body.to || req.body.to == 'all')) { devices.push(ele.deviceId) }
         })
         console.log(devices)
-        // notify.pushnotify(devices);
+        notify.pushnotify(devices);
 
         const deptCircular = new Department(result)
-        // await deptCircular.save()
+        await deptCircular.save()
         req.flash('success', 'Posted Circular successfully')
         res.redirect('/')
     } catch (error) {
