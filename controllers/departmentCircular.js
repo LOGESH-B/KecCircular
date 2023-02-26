@@ -33,7 +33,7 @@ module.exports.postCircular = async (req, res) => {
             if (ele.deviceId != '-' && (ele.type == req.body.to || req.body.to == 'all')) { devices.push(ele.deviceId) }
         })
         console.log(devices)
-        notify.pushnotify(devices);
+        notify.pushnotify(devices, result.title, "KEC | Circular");
 
         const deptCircular = new Department(result)
         await deptCircular.save()
@@ -78,7 +78,7 @@ module.exports.getAllCircular = async (req, res) => {
         //all
         if (req.params.platform != 'web') {
             var allCircular = await Department.find({ $and: [{ dept: { $in: [req.params.dept, 'all'] } }, { batch: { $in: [req.params.batch, 'all'] } }, { type: { $in: [req.params.type, 'all'] } }, { postedOn: { $lt: yesterday } }] })
-        }else{
+        } else {
             var allCircular = await Department.find({ $and: [{ dept: { $in: [req.params.dept, 'all'] } }, { postedOn: { $lt: yesterday } }] })
 
         }
