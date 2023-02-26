@@ -172,3 +172,13 @@ module.exports.createfolder = async (req, res) => {
         res.redirect('/')
     }
 }
+
+module.exports.getSpecificCircular = async(req,res)=>{
+    const {id}=req.params
+    try {
+        const circular=await Circular.findById(id)
+        res.render('circular_page/preview_circular',{circular})
+    } catch (error) {
+        res.send(error)
+    }
+}

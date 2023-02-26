@@ -10,6 +10,8 @@ const cookieParser = require("cookie-parser");
 const sessions = require('express-session');
 const dotenv = require('dotenv')
 const flash = require('connect-flash');
+const Cryptr = require('cryptr');
+const cryptr = new Cryptr('myTotallySecretKey');
 
 //models
 const User = require("./models/user");
@@ -101,6 +103,18 @@ app.use('/circular', circularRoutes)
 app.use('/api',notificationRoutes)
 app.use('/dept',departmentCircular)
 
+app.get('/:id/secured',async(req,res)=>{
+    try{
+        const {id} = req.params
+        const decryptedUrl = await cryptr.decrypt(id);
+        console.log('decrypted url');
+        console.log(decryptedUrl);
+        const circular =await Circular.findOne({filePath:decryptedUrl})
+        res.redirect(`/circular/hash/${circular._id}`);
+    }catch(e){
+        console.log(e);
+    }
+})
 
 //listening port
 //port
