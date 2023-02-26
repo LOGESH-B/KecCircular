@@ -115,7 +115,7 @@ module.exports.deleteCircular = async (req, res) => {
     const { id } = req.params
     try {
         const circular = await Department.findByIdAndDelete(id)
-        const path = `${__dirname}/../public/`
+        var path = `${__dirname}/../public/`
         path = path + circular.filePath
         fs.unlinkSync(path)
         req.flash('success', 'Circular has been deleted successfully')
