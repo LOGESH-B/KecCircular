@@ -1,6 +1,6 @@
 const nodemailer = require("nodemailer");
 
-// async..await is not allowed in global scope, must use a wrapper
+
 module.exports.otp_sendEmail = async (req, res) => {
   var otp = req.body.otp;
   var user_mail = req.body.email
@@ -31,11 +31,8 @@ module.exports.otp_sendEmail = async (req, res) => {
     html: `<p> Here the OTP for your verification => <b> ${otp} </b><p>`, // html body
   });
   console.log("Message sent: %s", info.messageId);
-  // Message sent: <b658f8ca-6296-ccf4-8306-87d57a0b4321@example.com>
-
-  // Preview only available when sending through an Ethereal account
+ 
   console.log("Preview URL: %s", nodemailer.getTestMessageUrl(info));
-  // Preview URL: https://ethereal.email/message/WaQKMgKddxQDoou...
   info.messageId ? res.status(200).json('OTP Send Successfully') : res.status(500).json('Error Occured!')
 
 }

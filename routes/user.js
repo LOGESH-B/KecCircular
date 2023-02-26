@@ -27,7 +27,6 @@ router.post('/forgotten-password',change_password_request)
 
 router.post('/forgotten-password/:userId/:token',change_password)
 
-
 module.exports=router;
 
 
