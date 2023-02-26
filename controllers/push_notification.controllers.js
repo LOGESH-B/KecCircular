@@ -73,7 +73,7 @@ exports.pushnotify=(devices,content,title)=>{
      pushNotificationService.SendNotification(message,(error,results)=>{
         if(error){
             return {
-                message:"Success",
+                message:"Error",
                 error: error,
             };
         }
