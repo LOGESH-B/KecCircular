@@ -1,6 +1,7 @@
 const Department = require('../models/department.js')
 const User = require('../models/user.js');
 const notify = require('../controllers/push_notification.controllers')
+const fs = require('fs');
 
 module.exports.postCircular = async (req, res) => {
     try {
@@ -115,7 +116,7 @@ module.exports.deleteCircular = async (req, res) => {
     const { id } = req.params
     try {
         const circular = await Department.findByIdAndDelete(id)
-        var path = `${__dirname}/../public/`
+        let path = `${__dirname}/../public/`
         path = path + circular.filePath
         fs.unlinkSync(path)
         req.flash('success', 'Circular has been deleted successfully')

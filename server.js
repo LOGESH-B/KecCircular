@@ -54,6 +54,7 @@ const type = ["Civil Engineering", "Mechanical Engineering", "Mechatronics Engin
 app.use(async (req, res, next) => {
     //const deptt= new Constant({dept:type});
     //await deptt.save()
+    console.log(req.session.dept);
     res.locals.success=req.flash('success');
     res.locals.error=req.flash('error');
     res.locals.currentUser = req.session._id;
